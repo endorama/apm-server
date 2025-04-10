@@ -20,6 +20,15 @@ Breaking changes can impact your Elastic applications, potentially disrupting no
 % **Action**<br> Steps for mitigating deprecation impact.
 % ::::
 
+::::{dropdown} This is a big, breaking change
+Fooo bar baz
+For more information, check [#1728]({{apm-pull}}1728).
+
+**Impact**<br> Asteroidic.
+
+**Action**<br> Be agile.
+::::
+
 ## 9.0.0 [9-0-0]
 **Release date:** April 2, 2025
 
