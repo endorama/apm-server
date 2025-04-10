@@ -6,7 +6,6 @@
 
 set -eou pipefail
 
-
 # used - universal sed
 # sed that works on macos and linux.
 used() {
@@ -26,45 +25,37 @@ used() {
 updateFile() {
   local file
   file=$1
+  # offset of placeholder content after Next version
+  local offset
+  offset=$2
 
   newfile="newfile.md"
 
   # get the line where we will introduce back the next version section
   LN=$(grep -n "## Next version" "$file" | head -1 | grep -Eo '^[^:]+')
-  # replace next version with actual version (with HTTP anchor)
+  # create anchor from version string
   anchor=$(echo "$VERSION" | tr . -)
-
   # create the new file content
-  # take lines up to next version
-  head -n "$(($LN - 1))" "$file" > "$newfile"
-  # add back the next version section
-  cat >> "$newfile" << 'EOS'
-## Next version [next-version]
-% **Release date:** Month day, year
-
-% ::::{dropdown} Title of breaking change
-% Description of the breaking change.
-% For more information, check [#PR-number]({{apm-pull}}PR-number).
-%
-% **Impact**<br> Impact of the breaking change.
-%
-% **Action**<br> Steps for mitigating deprecation impact.
-% ::::
-
-EOS
-  # add the rest of the file, replace next section with version
-  tail -n+$LN "$file" | \
+  # take lines up to next version section
+  head -n "$(($LN + $offset))" "$file" > "$newfile"
+  # introduce the new version header
+  echo "## $VERSION [$anchor]" >> "$newfile"
+  echo "% **Release date:** Month day, year" >> "$newfile"
+  # Add the rest of the file, skip placeholder content, replace next section with version.
+  tail -n+$(($LN + $offset)) "$file" | \
     used "s|## Next version.*|## $VERSION [$anchor]|g" /dev/stdin >> "$newfile"
   # replace breaking change file with new content
   mv "$newfile" "$file"
 }
 
 updateBreakingChanges() {
-  updateFile "./docs/release-notes/breaking-changes.md"
+  # offset is number of lines below ## Next version + 1
+  updateFile "./docs/release-notes/breaking-changes.md" 11
 }
 
 updateDeprecations() {
-  updateFile "./docs/release-notes/deprecations.md"
+  # offset is number of lines below ## Next version + 1
+  updateFile "./docs/release-notes/deprecations.md" 9
 }
 
 updateIndex() {
@@ -73,29 +64,26 @@ updateIndex() {
 
   # get the line where we will introduce back the next version section
   LN=$(grep -n "## version.next" "$file" | head -1 | grep -Eo '^[^:]+')
-  # replace next version with actual version (with HTTP anchor)
+  # create anchor from version string
   anchor=$(echo "$VERSION" | tr . -)
-
   # create the new file content
-  # take lines up to next version
+  # take lines up to next version section
   head -n "$(($LN - 1))" "$file" > "$newfile"
-  # add back the next version section
-  cat >> "$newfile" << 'EOS'
-## version.next [elastic-apm-next-release-notes]
-% **Release date:** Month day, year
-
-### Features and enhancements [elastic-apm-next-features-enhancements]
-
-%* 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
-
-### Fixes [elastic-apm-next-fixes]
-
-%* 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
-
-EOS
-  # add the rest of the file, replace next section with version
-  tail -n+$LN "$file" | \
-    used "s|## version.next.*|## $VERSION [$anchor]|g" /dev/stdin | \
+  # add template
+  echo "## Next version [elastic-apm-next-release-notes]" >> "$newfile"
+  echo "% **Release date:** Month day, year" >> "$newfile"
+  echo "" >> "$newfile"
+  echo "### Features and enhancements [elastic-apm-next-features-enhancements]" >> "$newfile"
+  echo "% * 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))" >> "$newfile"
+  echo "" >> "$newfile"
+  echo "### Fixes [elastic-apm-next-fixes]" >> "$newfile"
+  echo "% * 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))" >> "$newfile"
+  echo "" >> "$newfile"
+  # introduce the new version header
+  echo "## $VERSION [$anchor]" >> "$newfile"
+  echo "% **Release date:** Month day, year" >> "$newfile"
+  # Add the rest of the file, skip placeholder content, replace next section with version.
+  tail -n+$(($LN + 2)) "$file" | \
     used "s|elastic-apm-next-features-enhancements|$anchor-features-enhancements|g" /dev/stdin | \
     used "s|elastic-apm-next-fixes|$anchor-fixes|g" /dev/stdin >> "$newfile"
   # replace breaking change file with new content
