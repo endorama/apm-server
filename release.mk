@@ -117,12 +117,7 @@ ifeq ($(UPDATE_MERGIFY),true)
 	$(MAKE) create-pull-request BRANCH=mergify-$(RELEASE_BRANCH) TARGET_BRANCH=main TITLE="$(RELEASE_BRANCH): mergify" BODY="Merge as soon as the GitHub checks are green." BACKPORT_LABEL=backport-skip
 endif
 	$(MAKE) create-pull-request BRANCH=update-$(RELEASE_VERSION) TARGET_BRANCH=$(BASE_BRANCH) TITLE="$(RELEASE_BRANCH): update docs, versions and changelogs" BODY="Merge as soon as the GitHub checks are green" BACKPORT_LABEL=backport-skip
-# NOTE: as long as 8.x is the branch to run releases, then we use main as target with the backport label.
-# when 8.x is not available then we use TARGET_BRANCH=$(RELEASE_BRANCH)
-ifeq ($(BASE_BRANCH),8.x)
-	@echo "INFO: As long as 8.x is supported, we need to create a PR also in main"
-	$(MAKE) create-pull-request BRANCH=changelog-$(RELEASE_BRANCH) TARGET_BRANCH=main TITLE="$(RELEASE_BRANCH): update docs" BODY="Merge as soon as $(TARGET_BRANCH) branch is created and the GitHub checks are green. And the PR in main for the Mergify changes has been merged." BACKPORT_LABEL=backport-$(RELEASE_BRANCH)
-endif
+	$(MAKE) create-pull-request BRANCH=changelog-$(RELEASE_BRANCH) TARGET_BRANCH=$(BASE_BRANCH) TITLE="$(RELEASE_BRANCH): update docs" BODY="Merge as soon as $(TARGET_BRANCH) branch is created and the GitHub checks are green. And the PR in main for the Mergify changes has been merged." BACKPORT_LABEL=backport-$(RELEASE_BRANCH)
 
 # This is the contract with the GitHub action .github/workflows/run-major-release.yml.
 # The GitHub action will provide the below environment variables:
