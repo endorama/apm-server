@@ -20,6 +20,18 @@ Breaking changes can impact your Elastic applications, potentially disrupting no
 % **Action**<br> Steps for mitigating deprecation impact.
 % ::::
 
+## 9.103.0 [9-103-0]
+% **Release date:** Month day, year
+
+% ::::{dropdown} Title of breaking change
+% Description of the breaking change.
+% For more information, check [#PR-number]({{apm-pull}}PR-number).
+%
+% **Impact**<br> Impact of the breaking change.
+%
+% **Action**<br> Steps for mitigating deprecation impact.
+% ::::
+
 ::::{dropdown} This is a big, breaking change
 Fooo bar baz
 For more information, check [#1728]({{apm-pull}}1728).
