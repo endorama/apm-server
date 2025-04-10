@@ -20,6 +20,9 @@ Breaking changes can impact your Elastic applications, potentially disrupting no
 % **Action**<br> Steps for mitigating deprecation impact.
 % ::::
 
+## 9.105.0 [9-105-0]
+% **Release date:** Month day, year
+
 ::::{dropdown} This is a big, breaking change
 Fooo bar baz
 For more information, check [#1728]({{apm-pull}}1728).

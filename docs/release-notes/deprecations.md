@@ -17,6 +17,9 @@ Review the deprecated functionality for Elastic APM. While deprecations have no 
 % **Action**<br> Steps for mitigating deprecation impact.
 % ::::
 
+## 9.105.0 [9-105-0]
+% **Release date:** Month day, year
+
 ::::{dropdown} Old little feature, no more feature
 Description of the deprecation.
 For more information, check [PR #](PR link).
