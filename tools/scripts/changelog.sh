@@ -95,7 +95,9 @@ updateIndex() {
 EOS
   # add the rest of the file, replace next section with version
   tail -n+$LN "$file" | \
-    used "s|## version.next.*|## $VERSION [$anchor]|g" /dev/stdin >> "$newfile"
+    used "s|## version.next.*|## $VERSION [$anchor]|g" /dev/stdin | \
+    used "s|elastic-apm-next-features-enhancements|$anchor-features-enhancements|g" /dev/stdin | \
+    used "s|elastic-apm-next-fixes|$anchor-fixes|g" /dev/stdin >> "$newfile"
   # replace breaking change file with new content
   mv "$newfile" "$file"
 }
