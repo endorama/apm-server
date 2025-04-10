@@ -1,0 +1,24 @@
+[[apm-release-notes-8.101]]
+== APM version 8.101
+* <<apm-release-notes-8.101.0>>
+
+[float]
+[[apm-release-notes-8.101.0]]
+=== APM version 8.101.0
+
+https://github.com/elastic/apm-server/compare/v8.17.4\...v8.101.0[View commits]
+
+[float]
+==== Breaking Changes
+
+[float]
+==== Bug fixes
+
+[float]
+==== Deprecations
+
+[float]
+==== Intake API Changes
+
+[float]
+==== Added
