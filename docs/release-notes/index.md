@@ -19,6 +19,17 @@ To check for security updates, go to [Security announcements for the Elastic sta
 
 ### Features and enhancements [elastic-apm-next-features-enhancements]
 
+%* 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
+
+### Fixes [elastic-apm-next-fixes]
+
+%* 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
+
+## 9.101.0 [9-101-0]
+% **Release date:** Month day, year
+
+### Features and enhancements [elastic-apm-next-features-enhancements]
+
 * **Hello world**: testing the scripts
 
 ### Fixes [elastic-apm-next-fixes]
