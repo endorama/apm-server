@@ -48,7 +48,7 @@ NEXT_RELEASE ?= $(RELEASE_BRANCH).$(shell expr $(PROJECT_PATCH_VERSION) + 1)
 BRANCH_PATCH = update-$(NEXT_RELEASE)
 endif
 
-BASE_BRANCH ?= $(PROJECT_MAJOR_VERSION)\.x
+BASE_BRANCH ?= $(PROJECT_MAJOR_VERSION).x
 
 # BASE_BRANCH select by release type (default patch)
 ifeq ($(RELEASE_TYPE),minor)
