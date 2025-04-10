@@ -19,7 +19,11 @@ To check for security updates, go to [Security announcements for the Elastic sta
 
 ### Features and enhancements [elastic-apm-next-features-enhancements]
 
+* **Hello world**: testing the scripts
+
 ### Fixes [elastic-apm-next-fixes]
+
+* **awww**: is this broken or not?
 
 ## 9.0.0 [9-0-0]
 **Release date:** April 2, 2025
