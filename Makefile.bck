@@ -229,7 +229,7 @@ docs/spec: go.mod
 # Beats synchronisation.
 ##############################################################################
 
-BEATS_VERSION?=9.107
+BEATS_VERSION?=main
 BEATS_MODULE:=github.com/elastic/beats/v7
 
 .PHONY: update-beats
