@@ -17,5 +17,8 @@ Review the deprecated functionality for Elastic APM. While deprecations have no 
 % ::::
 
 % ## 9.0.0 [9-0-0]
+## 9.104 [9-104]
+% **Release date:** Month day, year
+% ## 9.0.0 [9-0-0]
 
 _No deprecations_

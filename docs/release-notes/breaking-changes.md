@@ -20,6 +20,9 @@ Breaking changes can impact your Elastic applications, potentially disrupting no
 % ::::
 
 ## 9.0.0 [9-0-0]
+## 9.104 [9-104]
+% **Release date:** Month day, year
+## 9.0.0 [9-0-0]
 
 ::::{dropdown} Change server information endpoint "/" to only accept GET and HEAD requests
 This will surface any agent misconfiguration causing data to be sent to `/` instead of the correct endpoint (for example, `/v1/traces` for OTLP/HTTP).
