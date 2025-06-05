@@ -18,7 +18,11 @@ To check for security updates, go to [Security announcements for the Elastic sta
 
 ### Features and enhancements [elastic-apm-next-features-enhancements]
 
+* That big one feature
+
 ### Fixes [elastic-apm-next-fixes]
+
+* There was a fix, nothing crazy
 
 ## 9.0.2 [elastic-apm-9.0.2-release-notes]
 
