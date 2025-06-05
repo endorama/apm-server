@@ -1,0 +1,50 @@
+From 72b35c1c5780cec289798e1af4aef5dfdbd831cd Mon Sep 17 00:00:00 2001
+From: Edoardo Tenani <edoardo.tenani@elastic.co>
+Date: Fri, 21 Mar 2025 19:39:27 +0100
+Subject: remove common-changelog
+
+---
+ release.mk | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
+
+diff --git a/release.mk b/release.mk
+index 0a4f5d697..17320d437 100644
+--- a/release.mk
++++ b/release.mk
+@@ -98,7 +98,7 @@ minor-release:
+ # Target main and use the backport strategy
+ 	$(MAKE) create-branch NAME=changelog-$(RELEASE_BRANCH) BASE=main
+ 	$(MAKE) update-changelog VERSION=$(RELEASE_BRANCH)
+-	$(MAKE) common-changelog
++	$(MAKE) update-changelog
+ 	$(MAKE) create-commit COMMIT_MESSAGE="docs: Update changelogs for $(RELEASE_BRANCH) release"
+ 
+ # NOTE: as long as 8.x is the branch to run releases, then we update mergify
+@@ -121,7 +121,7 @@ endif
+ #endif
+ 	$(MAKE) update-version VERSION=$(NEXT_PROJECT_MINOR_VERSION)
+ 	$(MAKE) create-commit COMMIT_MESSAGE="[Release] update version $(NEXT_PROJECT_MINOR_VERSION)"
+-	$(MAKE) common-changelog
++	$(MAKE) update-changelog
+ 	$(MAKE) create-commit COMMIT_MESSAGE="[Release] update changelogs for $(RELEASE_BRANCH) release"
+ 
+ 	@echo "INFO: Push changes to $(PROJECT_OWNER)/apm-server and create the relevant Pull Requests"
+@@ -172,15 +172,6 @@ update-changelog:
+ 	@echo ">> update-changelog"
+ 	bash ./tools/scripts/changelog.sh $(VERSION)
+ 
+-# Common changelog file steps
+-.PHONY: common-changelog
+-export CHANGELOG_MINOR_TMPL
+-common-changelog: VERSION=$${VERSION}
+-common-changelog:
+-	@echo ">> common-changelog"
+-	echo "$$CHANGELOG_MINOR_TMPL" > changelogs/$(VERSION).asciidoc
+-	tail -n +6 changelogs/head.asciidoc >> changelogs/$(VERSION).asciidoc
+-
+ ## Update the references on .mergify.yml with the new minor release.
+ .PHONY: update-mergify
+ update-mergify: VERSION=$${VERSION}
+-- 
+2.48.1
+

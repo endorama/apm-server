@@ -1,0 +1,24 @@
+From 8f74e5b1851f481d30b61e9ccef7b9922d9168f9 Mon Sep 17 00:00:00 2001
+From: Edoardo Tenani <edoardo.tenani@elastic.co>
+Date: Wed, 9 Apr 2025 15:06:56 +0200
+Subject: remove extra update-changelog
+
+---
+ release.mk | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/release.mk b/release.mk
+index 17320d437..f3d5ee159 100644
+--- a/release.mk
++++ b/release.mk
+@@ -98,7 +98,6 @@ minor-release:
+ # Target main and use the backport strategy
+ 	$(MAKE) create-branch NAME=changelog-$(RELEASE_BRANCH) BASE=main
+ 	$(MAKE) update-changelog VERSION=$(RELEASE_BRANCH)
+-	$(MAKE) update-changelog
+ 	$(MAKE) create-commit COMMIT_MESSAGE="docs: Update changelogs for $(RELEASE_BRANCH) release"
+ 
+ # NOTE: as long as 8.x is the branch to run releases, then we update mergify
+-- 
+2.48.1
+

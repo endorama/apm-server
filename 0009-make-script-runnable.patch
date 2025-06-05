@@ -1,0 +1,16 @@
+From 2774ccbcadf04e019bbe3b8a5d81658572f4f68c Mon Sep 17 00:00:00 2001
+From: Edoardo Tenani <edoardo.tenani@elastic.co>
+Date: Wed, 9 Apr 2025 18:03:12 +0200
+Subject: make script runnable
+
+---
+ tools/scripts/changelog.sh | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ mode change 100644 => 100755 tools/scripts/changelog.sh
+
+diff --git a/tools/scripts/changelog.sh b/tools/scripts/changelog.sh
+old mode 100644
+new mode 100755
+-- 
+2.48.1
+

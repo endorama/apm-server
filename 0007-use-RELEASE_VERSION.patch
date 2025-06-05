@@ -1,0 +1,34 @@
+From 9636d9bcf5555638b38d973ac513c19aefbba109 Mon Sep 17 00:00:00 2001
+From: Edoardo Tenani <edoardo.tenani@elastic.co>
+Date: Wed, 9 Apr 2025 15:07:02 +0200
+Subject: use RELEASE_VERSION
+
+---
+ release.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/release.mk b/release.mk
+index f3d5ee159..d457160ff 100644
+--- a/release.mk
++++ b/release.mk
+@@ -97,7 +97,7 @@ minor-release:
+ # BASE=$(RELEASE_BRANCH)
+ # Target main and use the backport strategy
+ 	$(MAKE) create-branch NAME=changelog-$(RELEASE_BRANCH) BASE=main
+-	$(MAKE) update-changelog VERSION=$(RELEASE_BRANCH)
++	$(MAKE) update-changelog VERSION=$(RELEASE_VERSION)
+ 	$(MAKE) create-commit COMMIT_MESSAGE="docs: Update changelogs for $(RELEASE_BRANCH) release"
+ 
+ # NOTE: as long as 8.x is the branch to run releases, then we update mergify
+@@ -120,7 +120,7 @@ endif
+ #endif
+ 	$(MAKE) update-version VERSION=$(NEXT_PROJECT_MINOR_VERSION)
+ 	$(MAKE) create-commit COMMIT_MESSAGE="[Release] update version $(NEXT_PROJECT_MINOR_VERSION)"
+-	$(MAKE) update-changelog
++	$(MAKE) update-changelog VERSION=$(RELEASE_VERSION)
+ 	$(MAKE) create-commit COMMIT_MESSAGE="[Release] update changelogs for $(RELEASE_BRANCH) release"
+ 
+ 	@echo "INFO: Push changes to $(PROJECT_OWNER)/apm-server and create the relevant Pull Requests"
+-- 
+2.48.1
+

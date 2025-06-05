@@ -1,0 +1,165 @@
+From 823647456b7748091341d796dc38679d624f72f4 Mon Sep 17 00:00:00 2001
+From: Edoardo Tenani <edoardo.tenani@elastic.co>
+Date: Fri, 21 Mar 2025 19:17:52 +0100
+Subject: more changelog update to dedicated script
+
+---
+ release.mk                 |  21 +-------
+ tools/scripts/changelog.sh | 105 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 106 insertions(+), 20 deletions(-)
+ create mode 100644 tools/scripts/changelog.sh
+
+diff --git a/release.mk b/release.mk
+index bf00d0258..0a4f5d697 100644
+--- a/release.mk
++++ b/release.mk
+@@ -72,24 +72,6 @@ ifeq ($(RELEASE_TYPE),major)
+ 	UPDATE_MERGIFY = true
+ endif
+ 
+-#######################
+-## Templates
+-#######################
+-
+-## Changelog template for new minors
+-define CHANGELOG_MINOR_TMPL
+-[[apm-release-notes-$(RELEASE_BRANCH)]]
+-== APM version $(RELEASE_BRANCH)
+-* <<apm-release-notes-$(RELEASE_BRANCH).0>>
+-
+-[float]
+-[[apm-release-notes-$(RELEASE_BRANCH).0]]
+-=== APM version $(RELEASE_BRANCH).0
+-
+-https://github.com/elastic/apm-server/compare/v$(CURRENT_RELEASE)\...v$(RELEASE_BRANCH).0[View commits]
+-
+-endef
+-
+ #######################
+ ## Public make goals
+ #######################
+@@ -187,9 +169,8 @@ patch-release:
+ .PHONY: update-changelog
+ update-changelog: VERSION=$${VERSION}
+ update-changelog:
+-	$(MAKE) common-changelog
+ 	@echo ">> update-changelog"
+-	$(SED) 's#head#$(VERSION)#g' CHANGELOG.asciidoc
++	bash ./tools/scripts/changelog.sh $(VERSION)
+ 
+ # Common changelog file steps
+ .PHONY: common-changelog
+diff --git a/tools/scripts/changelog.sh b/tools/scripts/changelog.sh
+new file mode 100644
+index 000000000..f0932e61c
+--- /dev/null
++++ b/tools/scripts/changelog.sh
+@@ -0,0 +1,105 @@
++#!/usr/bin/bash
++#
++# This script:
++# - updates the 'Next version' in breaking-changes.md to match the specified version
++# - add back the 'Next version' section, with template
++
++set -eou pipefail
++
++# Ugly but needed for MacOS. Sed on MacOS fails when calling sed --help with an illegal argument exception.
++# Exploit this to check if the user has a bad sed version and exit early.
++if ! sed --help >/dev/null 2>&1; then
++  echo "sed does not look like GNU sed. Are you running on MacOS perhaps? Install GNU sed, make it so you can call it with sed and retry"
++  exit 8
++fi
++
++updateFile() {
++  local file
++  file=$1
++
++  newfile="newfile.md"
++
++  # get the line where we will introduce back the next version section
++  LN=$(grep -n "## Next version" "$file" | head -1 | grep -Eo '^[^:]+')
++  # replace next version with actual version (with HTTP anchor)
++  anchor=$(echo "$VERSION" | tr . -)
++
++  # create the new file content
++  # take lines up to next version
++  head -n "$(($LN - 1))" "$file" > "$newfile"
++  # add back the next version section
++  cat >> "$newfile" << 'EOS'
++## Next version [next-version]
++% **Release date:** Month day, year
++
++% ::::{dropdown} Title of breaking change
++% Description of the breaking change.
++% For more information, check [#PR-number]({{apm-pull}}PR-number).
++%
++% **Impact**<br> Impact of the breaking change.
++%
++% **Action**<br> Steps for mitigating deprecation impact.
++% ::::
++
++EOS
++  # add the rest of the file, replace next section with version
++  tail -n+$LN "$file" | \
++    sed "s|## Next version.*|## $VERSION [$anchor]|g" /dev/stdin >> "$newfile"
++  # replace breaking change file with new content
++  mv "$newfile" "$file"
++}
++
++updateBreakingChanges() {
++  updateFile "./docs/release-notes/breaking-changes.md"
++}
++
++updateDeprecations() {
++  updateFile "./docs/release-notes/deprecations.md"
++}
++
++updateIndex() {
++  file=./docs/release-notes/index.md
++  newfile="newfile.md"
++
++  # get the line where we will introduce back the next version section
++  LN=$(grep -n "## version.next" "$file" | head -1 | grep -Eo '^[^:]+')
++  # replace next version with actual version (with HTTP anchor)
++  anchor=$(echo "$VERSION" | tr . -)
++
++  # create the new file content
++  # take lines up to next version
++  head -n "$(($LN - 1))" "$file" > "$newfile"
++  # add back the next version section
++  cat >> "$newfile" << 'EOS'
++## version.next [elastic-apm-next-release-notes]
++% **Release date:** Month day, year
++
++### Features and enhancements [elastic-apm-next-features-enhancements]
++
++%* 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
++
++### Fixes [elastic-apm-next-fixes]
++
++%* 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
++
++EOS
++  # add the rest of the file, replace next section with version
++  tail -n+$LN "$file" | \
++    sed "s|## version.next.*|## $VERSION [$anchor]|g" /dev/stdin >> "$newfile"
++  # replace breaking change file with new content
++  mv "$newfile" "$file"
++}
++
++
++VERSION=${1:-}
++
++test -z VERSION && {
++  echo "VERSION is required"
++  exit 2
++}
++
++echo ">> updating changelog for $VERSION"
++
++updateBreakingChanges
++updateDeprecations
++updateIndex
+-- 
+2.48.1
+

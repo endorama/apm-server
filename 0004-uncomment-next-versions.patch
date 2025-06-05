@@ -1,0 +1,55 @@
+From 7765468e8bbfae7d7de03daf9d86d7de66cc92c8 Mon Sep 17 00:00:00 2001
+From: Edoardo Tenani <edoardo.tenani@elastic.co>
+Date: Fri, 21 Mar 2025 19:39:19 +0100
+Subject: uncomment next versions
+
+Staging areas for adding release notes while we
+work on a new version.
+---
+ docs/release-notes/deprecations.md | 4 ++--
+ docs/release-notes/index.md        | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/docs/release-notes/deprecations.md b/docs/release-notes/deprecations.md
+index df46987e1..cdf0ce0e3 100644
+--- a/docs/release-notes/deprecations.md
++++ b/docs/release-notes/deprecations.md
+@@ -7,7 +7,7 @@ # Elastic APM deprecations
+ 
+ Review the deprecated functionality for Elastic APM. While deprecations have no immediate impact, we strongly encourage you update your implementation after you upgrade. To learn how to upgrade, check out [Upgrade](docs-content://deploy-manage/upgrade.md).
+ 
+-% ## Next version [next-version]
++## Next version [next-version]
+ % **Release date:** Month day, year
+ 
+ % ::::{dropdown} Deprecation title
+@@ -25,4 +25,4 @@ # Elastic APM deprecations
+ % For more information, check [PR #](PR link).
+ % **Impact**<br> Impact of deprecation.
+ % **Action**<br> Steps for mitigating deprecation impact.
+-% ::::
+\ No newline at end of file
++% ::::
+diff --git a/docs/release-notes/index.md b/docs/release-notes/index.md
+index 9f46eec4a..9352096d1 100644
+--- a/docs/release-notes/index.md
++++ b/docs/release-notes/index.md
+@@ -14,12 +14,12 @@ # Elastic APM release notes
+ % Release notes include only features, enhancements, and fixes. Add breaking changes, deprecations, and known issues to the applicable release notes sections.
+ % For each new version section, include the Elastic APM and Kibana changes.
+ 
+-% ## version.next [elastic-apm-next-release-notes]
++## version.next [elastic-apm-next-release-notes]
+ % **Release date:** Month day, year
+ 
+-% ### Features and enhancements [elastic-apm-next-features-enhancements]
++### Features and enhancements [elastic-apm-next-features-enhancements]
+ 
+-% ### Fixes [elastic-apm-next-fixes]
++### Fixes [elastic-apm-next-fixes]
+ 
+ ## 9.0.0 [9-0-0]
+ **Release date:** April 2, 2025
+-- 
+2.48.1
+
