@@ -14,11 +14,20 @@ To check for security updates, go to [Security announcements for the Elastic sta
 % Release notes include only features, enhancements, and fixes. Add breaking changes, deprecations, and known issues to the applicable release notes sections.
 % For each new version section, include the Elastic APM and Kibana changes.
 
-## version.next [elastic-apm-next-release-notes]
+## Next version [elastic-apm-next-release-notes]
+% **Release date:** Month day, year
 
 ### Features and enhancements [elastic-apm-next-features-enhancements]
+% * 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
 
 ### Fixes [elastic-apm-next-fixes]
+% * 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
+
+## 9.107.0 [9-107-0]
+
+### Features and enhancements [9-107-0-features-enhancements]
+
+### Fixes [9-107-0-fixes]
 
 ## 9.0.2 [elastic-apm-9.0.2-release-notes]
 
