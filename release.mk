@@ -51,8 +51,8 @@ endif
 # BASE_BRANCH select by release type (default patch)
 ifeq ($(RELEASE_TYPE),minor)
 	ifeq ($(PROJECT_MAJOR_VERSION), 8)
-		BASE_BRANCH ?= 8.x
-		CHANGELOG_BRANCH ?= 8.x
+		BASE_BRANCH ?= 8.19
+		CHANGELOG_BRANCH ?= 8.19
 	else
 		BASE_BRANCH ?= main
 		CHANGELOG_BRANCH = main
