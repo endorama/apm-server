@@ -55,7 +55,7 @@ insertEmptyReleaseNote() {
     if (in_block && $0 ~ /^## [0-9]+\.[0-9]+\.[0-9]+/) {
       # Check if any non-comment, non-blank lines found
       if (found == 0) {
-        print "'$comment'\n"
+        print "'"$comment"'\n"
       }
       print
       in_block=0
