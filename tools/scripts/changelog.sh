@@ -29,14 +29,65 @@ updateFile() {
   mv "$newfile" "$file"
 }
 
+# insertEmptyReleaseNote file comment
+# This function checks if between ## Next version and ## X.Y.Z lines there are
+# non empty and non commented lines. If there are any, adds the content of 
+# comment in between. This allows to automate inserting empty release notes when
+# necessary.
+# NOTE: it overrides file with the new content.
+insertEmptyReleaseNote() {
+  local file
+  file="$1"
+  local comment
+  comment="$2"
+
+  awk '
+  BEGIN {in_block=0; found=0}
+  {
+    # Detect start marker
+    if ($0 ~ /^## Next version/) {
+      print
+      in_block=1
+      block_lines=""
+      next
+    }
+    # Detect end marker
+    if (in_block && $0 ~ /^## [0-9]+\.[0-9]+\.[0-9]+/) {
+      # Check if any non-comment, non-blank lines found
+      if (found == 0) {
+        print "'$comment'\n"
+      }
+      print
+      in_block=0
+      found=0
+      next
+    }
+    if (in_block) {
+      # Only check lines between the markers
+      if ($0 !~ /^%/ && $0 !~ /^[[:space:]]*$/) {
+        found=1
+      }
+      block_lines = block_lines $0 "\n"
+      print
+      next
+    }
+    print
+  }
+  ' "$file" > "$file"
+}
+
 updateBreakingChanges() {
+  file="./docs/release-notes/breaking-changes.md"
+  insertEmptyReleaseNote "$file" "_No breaking changes_"
   # offset is number of lines below in the Next version section + 1
-  updateFile "./docs/release-notes/breaking-changes.md" 10
+  updateFile "$file" 10
 }
 
 updateDeprecations() {
+  file="./docs/release-notes/deprecations.md"
+  insertEmptyReleaseNote "$file" "_No deprecations_"
   # offset is number of lines below in the Next version section + 1
-  updateFile "./docs/release-notes/deprecations.md" 8
+  updateFile "$file" 8
 }
 
 updateIndex() {
