@@ -3,6 +3,7 @@
 # This script adds the specific version header to all release notes files.
 
 set -eou pipefail
+set -x
 
 updateFile() {
   local file
@@ -29,19 +30,19 @@ updateFile() {
   mv "$newfile" "$file"
 }
 
-# insertEmptyReleaseNote file comment
+# maybeInsertEmptyReleaseNote file comment
 # This function checks if between ## Next version and ## X.Y.Z lines there are
 # non empty and non commented lines. If there are any, adds the content of 
 # comment in between. This allows to automate inserting empty release notes when
 # necessary.
 # NOTE: it overrides file with the new content.
-insertEmptyReleaseNote() {
+maybeInsertEmptyReleaseNote() {
   local file
   file="$1"
   local comment
   comment="$2"
 
-  awk '
+  awk -v comment="$comment" '
   BEGIN {in_block=0; found=0}
   {
     # Detect start marker
@@ -55,7 +56,7 @@ insertEmptyReleaseNote() {
     if (in_block && $0 ~ /^## [0-9]+\.[0-9]+\.[0-9]+/) {
       # Check if any non-comment, non-blank lines found
       if (found == 0) {
-        print "'"$comment"'\n"
+        print comment, "\n"
       }
       print
       in_block=0
@@ -73,19 +74,21 @@ insertEmptyReleaseNote() {
     }
     print
   }
-  ' "$file" > "$file"
+  ' "$file" > "$file.new"
+
+  mv "$file.new" "$file"
 }
 
 updateBreakingChanges() {
   file="./docs/release-notes/breaking-changes.md"
-  insertEmptyReleaseNote "$file" "_No breaking changes_"
+  maybeInsertEmptyReleaseNote "$file" "_No breaking changes_"
   # offset is number of lines below in the Next version section + 1
   updateFile "$file" 10
 }
 
 updateDeprecations() {
   file="./docs/release-notes/deprecations.md"
-  insertEmptyReleaseNote "$file" "_No deprecations_"
+  maybeInsertEmptyReleaseNote "$file" "_No deprecations_"
   # offset is number of lines below in the Next version section + 1
   updateFile "$file" 8
 }
@@ -95,7 +98,7 @@ updateIndex() {
   newfile="newfile.md"
 
   # get the line where we will introduce back the next version section
-  LN=$(grep -n "## version.next" "$file" | head -1 | grep -Eo '^[^:]+')
+  LN=$(grep -n "## Next version" "$file" | head -1 | grep -Eo '^[^:]+')
   # create anchor from version string
   anchor=$(echo "$VERSION" | tr . -)
   # create the new file content
