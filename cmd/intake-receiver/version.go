@@ -18,4 +18,4 @@
 package main
 
 // version matches the APM Server's version
-const version = "9.401.0"
+const version = "9.402.0"
