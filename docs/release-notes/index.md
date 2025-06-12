@@ -15,7 +15,6 @@ To check for security updates, go to [Security announcements for the Elastic sta
 % For each new version section, include the Elastic APM and Kibana changes.
 
 ## Next version [elastic-apm-next-release-notes]
-% **Release date:** Month day, year
 
 ### Features and enhancements [elastic-apm-next-features-enhancements]
 
