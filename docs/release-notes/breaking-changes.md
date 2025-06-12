@@ -19,6 +19,10 @@ Breaking changes can impact your Elastic applications, potentially disrupting no
 % **Action**<br> Steps for mitigating deprecation impact.
 % ::::
 
+## 9.401.1 [9-401-1]
+
+_No breaking changes_ 
+
 ## 9.401.0 [9-401-0]
 
 _No breaking changes_ 
