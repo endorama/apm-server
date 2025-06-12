@@ -339,3 +339,12 @@ pull_request_rules:
       backport:
         branches:
           - "9.400"
+  - name: backport patches to 9.401 branch
+    conditions:
+      - merged
+      - base=main
+      - label=backport-9.401
+    actions:
+      backport:
+        branches:
+          - "9.401"
