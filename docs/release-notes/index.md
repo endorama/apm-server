@@ -19,8 +19,14 @@ To check for security updates, go to [Security announcements for the Elastic sta
 ### Features and enhancements [elastic-apm-next-features-enhancements]
 % * 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
 
+* a new feature (etc etc)
+* a new feature (etc etc)
+* a new feature (etc etc)
+
 ### Fixes [elastic-apm-next-fixes]
 % * 1 sentence describing the change. ([#PR number](https://github.com/elastic/apm-server/pull/PR number))
+
+* a new bugfix (etc etc)
 
 ## 9.400.0 [9-400-0]
 
