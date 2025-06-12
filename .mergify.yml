@@ -330,3 +330,12 @@ pull_request_rules:
       backport:
         branches:
           - "9.0"
+  - name: backport patches to 9.300 branch
+    conditions:
+      - merged
+      - base=main
+      - label=backport-9.300
+    actions:
+      backport:
+        branches:
+          - "9.300"
